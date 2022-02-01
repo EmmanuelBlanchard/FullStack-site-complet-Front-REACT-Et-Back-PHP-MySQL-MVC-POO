@@ -14,4 +14,11 @@ abstract class Model {
         }
         return self::$pdo;
     }
+
+    public static function viewJSON($infos) {
+        header("Access-Control-Allow-Origin: * ");
+        header("Content-Type: application/json");
+        echo json_encode($infos);
+    }
+
 }
