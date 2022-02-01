@@ -11,18 +11,48 @@ class APIController {
 
     public function getAnimals() {
         $animals = $this->apiManager->getDBAnimals();
-        echo "<pre>";
-        print_r($animals);
-        echo "</pre>";
-        //echo "Envoi des informations sur les animaux";
+        $tabResult = $this->formatDatasRowsAnimals($animals);
+        // echo "<pre>";
+        // print_r($tabResult);
+        // echo "</pre>";
+        Model::viewJSON($tabResult);
     }
 
     public function getAnimal($idAnimal) {
         $rowsAnimal = $this->apiManager->getDBAnimal($idAnimal);
-        echo "<pre>";
-        print_r($rowsAnimal);
-        echo "</pre>";
-        // echo "Données JSON de l'animal avec l'identifiant ".$idAnimal." demandées";
+
+        $tabResult = $this->formatDatasRowsAnimals($rowsAnimal);
+        // echo "<pre>";
+        // print_r($tabResult);
+        // echo "</pre>";
+        Model::viewJSON($tabResult);
+    }
+
+    private function formatDatasRowsAnimals($rows) {
+        $tab = [];
+        
+        foreach($rows as $row) {
+            if(!array_key_exists($row['animal_id'],$tab)) {
+                $tab[$row['animal_id']] = [
+                    "id" => $row['animal_id'],
+                    "nom" => $row['animal_nom'],
+                    "description" => $row['animal_description'],
+                    "image" => $row['animal_image'],
+                    "famille" => [
+                        "idFamille" => $row['famille_id'],
+                        "libelleFamille" => $row['famille_libelle'],
+                        "descriptionFamille" => $row['famille_description']
+                    ]
+                ];
+            }
+           
+            $tab[$row['animal_id']]['continents'][] = [
+                "idContinent" => $row['continent_id'],
+                "libelleContinent" => $row['continent_libelle']
+            ];
+        }
+
+        return $tab;
     }
 
     public function getContinents() {
