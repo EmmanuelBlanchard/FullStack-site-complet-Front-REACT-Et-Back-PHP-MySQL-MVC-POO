@@ -4,6 +4,9 @@
 define("URL", str_replace("index.php","",(isset($_SERVER['HTTPS']) ? "https" : "http").
 "://$_SERVER[HTTP_HOST]$_SERVER[PHP_SELF]"));
 
+require_once "./controllers/front/API.controller.php";
+$apiController = new APIController();
+
 try {
     if(empty($_GET['page'])) {
         throw new Exception("La page n'existe pas");
@@ -13,13 +16,15 @@ try {
         switch($url[0]) {
             case "front" : 
                 switch($url[1]) {
-                    case "animaux": echo "données JSON des animaux demandées";
+                    case "animaux": $apiController->getAnimals();
                     break;
-                    case "animal": echo "données JSON de l'animal ".$url[2]." demandées";
+                    case "animal": 
+                        if(empty($url[2])) throw new Exception ("L'identifiant de l'animal est manquant");
+                        $apiController->getAnimal($url[2]);
                     break;
-                    case "continents": echo "données JSON des continents demandées";
+                    case "continents": $apiController->getContinents();
                     break;
-                    case "familles": echo "données JSON des familles demandées";
+                    case "familles": $apiController->getFamilies();
                     break;
                     default : throw new Exception ("La page n'existe pas");
                 }
