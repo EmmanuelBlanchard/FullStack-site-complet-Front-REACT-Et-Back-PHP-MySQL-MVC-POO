@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import TitleH1 from '../../../components/UI/Titles/TitleH1';
 import axios from 'axios';
+import Animal from './Animal/Animal';
 
 class Application extends Component {
     state = {
@@ -22,13 +23,19 @@ class Application extends Component {
         return (
             <>
                 <TitleH1 bgColor="bg-success">Les animaux du parc</TitleH1>
-                <div className="container">
-                    {
-                        this.state.animals && 
-                        this.state.animals.map(animal => {
-                            return <h1 className="p-2 m-2">{animal.id} - {animal.nom}</h1>
-                        })
-                    }
+                <div className="container-fluid">
+                    <div className="row no-gutters">
+                        {
+                            this.state.animals && 
+                            this.state.animals.map(animal => {
+                                return (
+                                    <div className="col-12 col-md-6 col-xl-4" key={animal.id}>
+                                        <Animal {...animal} />
+                                    </div>
+                                )
+                            })
+                        }
+                    </div>
                 </div>
             </>
         );

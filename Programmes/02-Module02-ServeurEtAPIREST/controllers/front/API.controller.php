@@ -37,7 +37,7 @@ class APIController {
                     "id" => $row['animal_id'],
                     "nom" => $row['animal_nom'],
                     "description" => $row['animal_description'],
-                    "image" => $row['animal_image'],
+                    "image" => URL."public/images/".$row['animal_image'],
                     "famille" => [
                         "idFamille" => $row['famille_id'],
                         "libelleFamille" => $row['famille_libelle'],
