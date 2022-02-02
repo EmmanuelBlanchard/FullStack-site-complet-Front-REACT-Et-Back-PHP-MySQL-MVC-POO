@@ -12,7 +12,7 @@ class Home extends Component {
         return (
             <div>
                 <img src={banner} alt="banderole du site My Zoo" className="img-fluid" />
-                <TitleH1>Venez visiter le parc d'animaux MyZoo ! ! ! </TitleH1>
+                <TitleH1 bgColor="bg-success">Venez visiter le parc d'animaux MyZoo ! ! ! </TitleH1>
                 <div className="container">
                     <p>
                         Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore eveniet deserunt, modi odit doloribus doloremque saepe possimus similique numquam aliquid repellendus, ducimus obcaecati labore quos! Repudiandae laudantium incidunt dolore. Modi.
