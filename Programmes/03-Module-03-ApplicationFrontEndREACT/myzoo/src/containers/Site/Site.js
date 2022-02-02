@@ -1,12 +1,17 @@
 import React, { Component } from 'react';
 import NavBar from '../../components/UI/NavBar/NavBar';
+import {Switch, Route} from 'react-router-dom';
+import Accueil from './Accueil/Accueil';
 
 class Site extends Component {
     render() {
         return (
             <>
                 <NavBar />
-                Site des animaux
+                <Switch>
+                    <Route path="/contact" render={() => <h1>Page de contact</h1>} />
+                    <Route path="/" render={() => <Accueil />} />
+                </Switch>
             </>
         );
     }

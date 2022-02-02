@@ -1,5 +1,6 @@
 import React from 'react';
 import logo from '../../../assets/images/logo.png';
+import {NavLink} from 'react-router-dom';
 
 const navbar = (props) => (
     <>  
@@ -15,7 +16,10 @@ const navbar = (props) => (
                 <div className="collapse navbar-collapse" id="navbarColor01">
                     <ul className="navbar-nav me-auto">
                         <li className="nav-item">
-                            <a className="nav-link" href="#">Accueil</a>
+                            <NavLink to="/" exact className="nav-link">Accueil</NavLink>
+                        </li>
+                        <li className="nav-item">
+                            <NavLink to="/contact" exact className="nav-link">Contact</NavLink>
                         </li>
                     </ul>
                 </div>
