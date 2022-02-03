@@ -64,8 +64,13 @@ export default withFormik({
             .min(50,"Le message doit faire plus de 50 caractères")
             .max(200,"Le message doit faire moins de 200 caractères")
     }),
-    handleSubmit: (values) => {
-        alert("Message Envoyé");
+    handleSubmit: (values,{props}) => {
+        const message = {
+            name : values.name,
+            email : values.email,
+            contenu : values.message
+        }
+        props.sendMail(message);
     }
 })(Formulaire);
 

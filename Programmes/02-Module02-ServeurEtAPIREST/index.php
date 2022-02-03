@@ -31,6 +31,8 @@ try {
                     break;
                     case "familles": $apiController->getFamilies();
                     break;
+                    case "sendMessage" : $apiController->sendMessage();
+                    break;
                     default : throw new Exception ("La page n'existe pas");
                 }
             break;
