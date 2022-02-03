@@ -5,6 +5,7 @@ import Home from './Home/Home';
 import Application from './Application/Application';
 import Error from '../../components/Error/Error';
 import Footer from '../../components/UI/Footer/Footer';
+import Contact from './Contact/Contact';
 
 class Site extends Component {
     render() {
@@ -14,7 +15,7 @@ class Site extends Component {
                     <NavBar />
                     <Switch>
                         <Route path="/animaux" exact render={() => <Application />} />
-                        <Route path="/contact" exact render={() => <h1>Page de contact</h1>} />
+                        <Route path="/contact" exact render={() => <Contact />} />
                         <Route path="/" exact render={() => <Home />} />
                         <Route render={() => <Error type="404">La page n'existe pas</Error>} />
                     </Switch>
