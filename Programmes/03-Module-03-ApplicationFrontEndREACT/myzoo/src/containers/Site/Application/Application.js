@@ -5,11 +5,15 @@ import Animal from './Animal/Animal';
 
 class Application extends Component {
     state = {
-        animals : null
+        animals : null,
+        familyFilter : null,
+        continentFilter : null,
     }
 
-    componentDidMount = () => {
-        axios.get(`https://localhost/coursFullStackSiteCompletFrontREACTBackPHPMySQLMVCPOO/02-Module02-ServeurEtAPIREST/front/animaux`)
+    loadData = () => {
+        const family = this.state.familyFilter ? this.state.familyFilter : "-1";
+        const continent = this.state.continentFilter ? this.state.continentFilter : "-1";
+        axios.get(`https://localhost/coursFullStackSiteCompletFrontREACTBackPHPMySQLMVCPOO/02-Module02-ServeurEtAPIREST/front/animaux/${family}/${continent}`)
             .then(response => {
                 // console.log(response);
                 // console.log(response.data);
@@ -18,14 +22,25 @@ class Application extends Component {
             .catch(error => console.log(error));
     }
 
+    componentDidMount = () => {
+        this.loadData();
+    }
+
+    componentDidUpdate = (oldProps,oldState) => {
+        if(oldState.familyFilter !== this.state.familyFilter || oldState.continentFilter !== this.state.continentFilter ) {
+            this.loadData();
+        }
+    }
+
     handleSelectFamily = (idFamily) => {
-        console.log(`Famille, demande de l'id : ${idFamily}`);
+        //console.log(`Famille, demande de l'id : ${idFamily}`);
+        this.setState({familyFilter : idFamily});
     }
 
     handleSelectContinent = (idContinent) => {
-        console.log(`Continent, demande de l'id : ${idContinent}`);
+        //console.log(`Continent, demande de l'id : ${idContinent}`);
+        this.setState({continentFilter : idContinent});
     }
-
 
     render() {
         return (
