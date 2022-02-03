@@ -18,6 +18,14 @@ class Application extends Component {
             .catch(error => console.log(error));
     }
 
+    handleSelectFamily = (idFamily) => {
+        console.log(`Famille, demande de l'id : ${idFamily}`);
+    }
+
+    handleSelectContinent = (idContinent) => {
+        console.log(`Continent, demande de l'id : ${idContinent}`);
+    }
+
 
     render() {
         return (
@@ -30,7 +38,9 @@ class Application extends Component {
                             this.state.animals.map(animal => {
                                 return (
                                     <div className="col-12 col-md-6 col-xl-4" key={animal.id}>
-                                        <Animal {...animal} />
+                                        <Animal {...animal}
+                                        familyFilter = {this.handleSelectFamily}
+                                        continentFilter = {this.handleSelectContinent} />
                                     </div>
                                 )
                             })

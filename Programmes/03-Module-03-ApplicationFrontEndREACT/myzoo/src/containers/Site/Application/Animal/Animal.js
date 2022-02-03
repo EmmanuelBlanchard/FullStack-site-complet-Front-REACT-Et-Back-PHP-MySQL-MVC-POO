@@ -12,7 +12,7 @@ const animal = (props) => (
                 <img src={props.image} alt={props.nom} className="img-fluid h-100"/>
             </div>
             <div className="card-body">
-                <h3>Famille : <Button typeBtn="btn-primary">{props.famille.libelleFamille.toUpperCase()}</Button></h3>
+                <h3>Famille : <Button typeBtn="btn-dark" clic={() => props.familyFilter(props.famille.idFamille)}>{props.famille.libelleFamille.toUpperCase()}</Button></h3>
                 <div>{props.famille.descriptionFamille}</div>
             </div>
             <div className="card-body">
@@ -33,7 +33,13 @@ const animal = (props) => (
                             break;
                             default : colorBtn = "btn-secondary";
                         }
-                        return <Button typeBtn={colorBtn} css="m-1" key={continent.idContinent}>{continent.libelleContinent}</Button>
+                        return <Button 
+                            typeBtn={colorBtn} 
+                            css="m-1" 
+                            clic={() => props.continentFilter(continent.idContinent)}
+                            key={continent.idContinent}
+                            >{continent.libelleContinent}
+                        </Button>
                     })
                 }
             </div>
