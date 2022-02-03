@@ -2,13 +2,20 @@
 require_once "models/Model.php";
 
 class APIManager extends Model {
-    public function getDBAnimals() {
+    public function getDBAnimals($idFamily,$idContinent) {
+        $whereClause = "";
+        if($idFamily !== -1 || $idContinent !== -1) $whereClause .= "WHERE ";
+        if($idFamily !== -1) $whereClause .= "f.famille_id = :idFamille";
+        if($idFamily !== -1 && $idContinent !== -1)  $whereClause .= " AND ";
+        if($idContinent !== -1) $whereClause .= "c.continent_id = :idContinent";
+
         $req = "SELECT * 
         FROM animal a INNER JOIN famille f ON f.famille_id = a.famille_id
         INNER JOIN animal_continent ac ON ac.animal_id = a.animal_id
-        INNER JOIN continent c ON c.continent_id = ac.continent_id
-        ";
+        INNER JOIN continent c ON c.continent_id = ac.continent_id ".$whereClause;
         $stmt = $this->getBdd()->prepare($req);
+        if($idFamily !== -1) $stmt->bindValue(":idFamille",$idFamily,PDO::PARAM_INT);
+        if($idContinent !== -1) $stmt->bindValue(":idContinent",$idContinent,PDO::PARAM_INT);
         $stmt->execute();
         $animals = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $stmt->closeCursor();

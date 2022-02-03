@@ -16,7 +16,12 @@ try {
         switch($url[0]) {
             case "front" : 
                 switch($url[1]) {
-                    case "animaux": $apiController->getAnimals();
+                    case "animaux": 
+                        if(!isset($url[2]) || !isset($url[3])) {
+                            $apiController->getAnimals(-1,-1);
+                        } else {
+                            $apiController->getAnimals((int)$url[2],(int)$url[3]);
+                        }
                     break;
                     case "animal": 
                         if(empty($url[2])) throw new Exception ("L'identifiant de l'animal est manquant");

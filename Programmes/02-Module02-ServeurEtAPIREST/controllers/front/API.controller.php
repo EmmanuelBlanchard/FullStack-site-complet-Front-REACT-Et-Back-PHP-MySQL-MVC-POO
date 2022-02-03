@@ -9,8 +9,8 @@ class APIController {
         $this->apiManager = new APIManager();
     }
 
-    public function getAnimals() {
-        $animals = $this->apiManager->getDBAnimals();
+    public function getAnimals($idFamily,$idContinent) {
+        $animals = $this->apiManager->getDBAnimals($idFamily,$idContinent);
         $tabResult = $this->formatDatasRowsAnimals($animals);
         // echo "<pre>";
         // print_r($tabResult);
