@@ -9,6 +9,8 @@ class Application extends Component {
         animals : null,
         familyFilter : null,
         continentFilter : null,
+        famillyList : null,
+        continentsList : null
     }
 
     loadData = () => {
@@ -25,6 +27,20 @@ class Application extends Component {
 
     componentDidMount = () => {
         this.loadData();
+        axios.get(`https://localhost/coursFullStackSiteCompletFrontREACTBackPHPMySQLMVCPOO/02-Module02-ServeurEtAPIREST/front/familles`)
+            .then(response => {
+                // console.log(response);
+                // console.log(response.data);
+                this.setState({famillyList:Object.values(response.data)});
+            })
+            .catch(error => console.log(error));
+        axios.get(`https://localhost/coursFullStackSiteCompletFrontREACTBackPHPMySQLMVCPOO/02-Module02-ServeurEtAPIREST/front/continents`)
+            .then(response => {
+                // console.log(response);
+                // console.log(response.data);
+                this.setState({continentsList:Object.values(response.data)});
+            })
+            .catch(error => console.log(error));
     }
 
     componentDidUpdate = (oldProps,oldState) => {
@@ -35,12 +51,14 @@ class Application extends Component {
 
     handleSelectFamily = (idFamily) => {
         //console.log(`Famille, demande de l'id : ${idFamily}`);
-        this.setState({familyFilter : idFamily});
+        if(idFamily === "-1") this.handleResetFamilyFilter() 
+        else this.setState({familyFilter : idFamily});
     }
 
     handleSelectContinent = (idContinent) => {
         //console.log(`Continent, demande de l'id : ${idContinent}`);
-        this.setState({continentFilter : idContinent});
+        if(idContinent === "-1") this.handleResetContinentFilter()
+        else this.setState({continentFilter : idContinent});
     }
 
     handleResetFamilyFilter = () => {
@@ -55,32 +73,55 @@ class Application extends Component {
         return (
             <>
                 <TitleH1 bgColor="bg-success">Les animaux du parc</TitleH1>
-                {
-                    (this.state.familyFilter || this.state.continentFilter) && <span>Filtres : </span>
-                }
-                {
-                    this.state.familyFilter &&
-                    <Button 
-                        typeBtn="btn-secondary"
-                        clic={this.handleResetFamilyFilter}
-                        >
-                        {this.state.familyFilter} &nbsp;
-                        <svg width="1em" height="1em" viewBox="0 0 16 16" className="bi bi-x-circle-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                            <path fillRule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-4.146-3.146a.5.5 0 0 0-.708-.708L8 7.293 4.854 4.146a.5.5 0 1 0-.708.708L7.293 8l-3.147 3.146a.5.5 0 0 0 .708.708L8 8.707l3.146 3.147a.5.5 0 0 0 .708-.708L8.707 8l3.147-3.146z"/>
-                        </svg>
-                    </Button>
-                }
-                {
-                    this.state.continentFilter &&
-                    <Button 
-                        typeBtn="btn-secondary"
-                        clic = {this.handleResetContinentFilter}
-                        >{this.state.continentFilter} &nbsp;
-                         <svg width="1em" height="1em" viewBox="0 0 16 16" className="bi bi-x-circle-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                            <path fillRule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-4.146-3.146a.5.5 0 0 0-.708-.708L8 7.293 4.854 4.146a.5.5 0 1 0-.708.708L7.293 8l-3.147 3.146a.5.5 0 0 0 .708.708L8 8.707l3.146 3.147a.5.5 0 0 0 .708-.708L8.707 8l3.147-3.146z"/>
-                        </svg>
+                <div className="container-fluid">
+                    <span>Filtres : </span>
+                    <select onChange={(event) => this.handleSelectFamily(event.target.value)}>
+                    <option value="-1" selected={this.state.familyFilter === null && "selected"}>Familles</option>
+                        {
+                            this.state.famillyList && this.state.famillyList.map(famille => {
+                                return <option 
+                                    value={famille.famille_id}
+                                    selected={this.state.familyFilter === famille.famille_id && "selected"}
+                                    >{famille.famille_libelle}</option>
+                            })
+                        }
+                    </select>
+                    <select defaultValue="-1" onChange={(event) => this.handleSelectContinent(event.target.value)}>
+                        <option value="-1" selected={this.state.continentFilter === null && "selected"}>Continents</option>
+                        {
+                            this.state.continentsList && this.state.continentsList.map(continent => {
+                                return <option 
+                                    value={continent.continent_id}
+                                    selected={this.state.continentFilter === continent.continent_id && "selected"}
+                                    >{continent.continent_libelle}</option>
+                            })
+                        }
+                    </select>
+                    {
+                        this.state.familyFilter &&
+                        <Button 
+                            typeBtn="btn-secondary"
+                            clic={this.handleResetFamilyFilter}
+                            >
+                            {this.state.familyFilter} &nbsp;
+                            <svg width="1em" height="1em" viewBox="0 0 16 16" className="bi bi-x-circle-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path fillRule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-4.146-3.146a.5.5 0 0 0-.708-.708L8 7.293 4.854 4.146a.5.5 0 1 0-.708.708L7.293 8l-3.147 3.146a.5.5 0 0 0 .708.708L8 8.707l3.146 3.147a.5.5 0 0 0 .708-.708L8.707 8l3.147-3.146z"/>
+                            </svg>
                         </Button>
-                }
+                    }
+                    {
+                        this.state.continentFilter &&
+                        <Button 
+                            typeBtn="btn-secondary"
+                            clic={this.handleResetContinentFilter}
+                            >{this.state.continentFilter} &nbsp;
+                            <svg width="1em" height="1em" viewBox="0 0 16 16" className="bi bi-x-circle-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path fillRule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-4.146-3.146a.5.5 0 0 0-.708-.708L8 7.293 4.854 4.146a.5.5 0 1 0-.708.708L7.293 8l-3.147 3.146a.5.5 0 0 0 .708.708L8 8.707l3.146 3.147a.5.5 0 0 0 .708-.708L8.707 8l3.147-3.146z"/>
+                            </svg>
+                        </Button>
+                    }
+                </div>
+
                 <div className="container-fluid">
                     <div className="row no-gutters">
                         {
