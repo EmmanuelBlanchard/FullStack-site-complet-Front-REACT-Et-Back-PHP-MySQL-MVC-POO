@@ -44,4 +44,23 @@ class FamiliesController {
         }
     }
 
+    public function modification()
+    {
+        if(Security::sessionAccessVerification()) {
+            $idFamily = (int)Security::secureHTML($_POST['famille_id']);
+            $libelleFamily = Security::secureHTML($_POST['famille_libelle']);
+            $descriptionFamily = Security::secureHTML($_POST['famille_description']);
+            $this->familiesManager->updateDBFamille($idFamily,$libelleFamily,$descriptionFamily);
+
+            $_SESSION['alert'] = [
+                "message" => "La famille a bien été modifiée",
+                "type" => "alert-success"
+            ];
+
+            header('Location: '.URL.'back/familles/visualisation');
+        } else {
+            throw new Exception("Vous n'avez pas le droit d'être là ! ");
+        }
+    }
+
 }

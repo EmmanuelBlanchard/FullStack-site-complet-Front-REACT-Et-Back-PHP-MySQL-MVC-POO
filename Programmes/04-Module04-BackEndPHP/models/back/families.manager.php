@@ -36,4 +36,16 @@ class FamiliesManager extends Model {
         return $resultat['numberAnimals'];
     }
 
+    public function updateDBFamille($idFamily,$libelleFamily,$descriptionFamily)
+    {
+        $req ="UPDATE famille SET famille_libelle = :libelleFamily, famille_description = :descriptionFamily
+        WHERE famille_id= :idFamily";
+        $stmt = $this->getBdd()->prepare($req);
+        $stmt->bindValue(":idFamily",$idFamily,PDO::PARAM_INT);
+        $stmt->bindValue(":libelleFamily",$libelleFamily,PDO::PARAM_STR);
+        $stmt->bindValue(":descriptionFamily",$descriptionFamily,PDO::PARAM_STR);
+        $stmt->execute();
+        $stmt->closeCursor();
+    }
+
 }

@@ -58,6 +58,8 @@ try {
                             break;
                             case "validationSuppression" : $familiesController->deletion();
                             break;
+                            case "validationModification" : $familiesController->modification();
+                            break;
                             case "creation" : echo "creation";
                             break;
                             default : throw new Exception ("La page n'existe pas");
