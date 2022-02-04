@@ -15,9 +15,8 @@
     </div>
 
     <div class="mb-3">
-        <label for="famille" class="form-label">Familles : </label>
-
-        <select class="form-select" aria-label="Selecteur de famille" name="famille">
+        <label for="famille_id" class="form-label">Familles : </label>
+        <select class="form-select" aria-label="Selecteur de famille" name="famille_id">
             <option></option>
             <?php foreach ($families as $family) : ?>
                 <option value="<?= $family['famille_id'] ?>">

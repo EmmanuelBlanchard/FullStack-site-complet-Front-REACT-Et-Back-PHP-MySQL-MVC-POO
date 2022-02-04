@@ -52,4 +52,36 @@ class AnimalsController {
             throw new Exception("Vous n'avez pas le droit d'être là ! ");
         }
     }
+
+    public function creationValidation()
+    {
+        if(Security::sessionAccessVerification()) {
+            $nameAnimal = Security::secureHTML($_POST['animal_nom']);
+            $descriptionAnimal = Security::secureHTML($_POST['animal_description']);
+            $imageAnimal = "";
+            $familyAnimal = (int) Security::secureHTML($_POST['famille_id']);
+
+            $idAnimal = $this->animalsManager->createDBAnimal($nameAnimal,$descriptionAnimal,$imageAnimal,$familyAnimal);
+
+            $continentsManager = new ContinentsManager();
+            if(!empty($_POST['continent-1']))
+                $continentsManager->addContinentAnimal($idAnimal,1);
+            if(!empty($_POST['continent-2']))
+                $continentsManager->addContinentAnimal($idAnimal,2);
+            if(!empty($_POST['continent-3']))
+                $continentsManager->addContinentAnimal($idAnimal,3);
+            if(!empty($_POST['continent-4']))
+                $continentsManager->addContinentAnimal($idAnimal,4);
+            if(!empty($_POST['continent-5']))
+                $continentsManager->addContinentAnimal($idAnimal,5);
+
+            $_SESSION['alert'] = [
+                "message" => "L'animal a été créé avec l'id : ".$idAnimal,
+                "type" => "alert-success"
+            ];
+            header('Location: '.URL.'back/animaux/visualisation');
+        } else {
+            throw new Exception("Vous n'avez pas le droit d'être là ! ");
+        }
+    }
 }

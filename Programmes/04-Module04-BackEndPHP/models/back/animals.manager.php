@@ -32,4 +32,19 @@ class AnimalsManager extends Model {
         $stmt->closeCursor();
     }
 
+    public function createDBAnimal($nameAnimal,$descriptionAnimal,$imageAnimal,$familyAnimal)
+    {
+        $req ="INSERT INTO animal (animal_nom,animal_description,animal_image,famille_id)
+            VALUES (:nameAnimal,:descriptionAnimal,:imageAnimal,:familyAnimal)
+        ";
+        $stmt = $this->getBdd()->prepare($req);
+        $stmt->bindValue(":nameAnimal",$nameAnimal,PDO::PARAM_STR);
+        $stmt->bindValue(":descriptionAnimal",$descriptionAnimal,PDO::PARAM_STR);
+        $stmt->bindValue(":imageAnimal",$imageAnimal,PDO::PARAM_STR);
+        $stmt->bindValue(":familyAnimal",$familyAnimal,PDO::PARAM_INT);
+        $stmt->execute();
+        $stmt->closeCursor();
+        return $this->getBdd()->lastInsertId();
+    }
+
 }
