@@ -48,6 +48,8 @@ try {
                     break;
                     case "admin" : $adminController->getHomeAdmin();
                     break;
+                    case "deconnexion" : $adminController->disconnection();
+                    break;
                     default : throw new Exception ("La page n'existe pas");
                 }
             break;

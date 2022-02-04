@@ -33,7 +33,17 @@ class AdminController {
 
     public function getHomeAdmin() 
     {
-        require "views/homeAdmin.view.php";
+        if(Security::sessionAccessVerification()) {
+            require "views/homeAdmin.view.php";
+        } else {
+            header('Location: '.URL."back/login");
+        } 
+    }
+
+    public function disconnection()
+    {
+        session_destroy();
+        header('Location: '.URL."back/login");
     }
 
 }

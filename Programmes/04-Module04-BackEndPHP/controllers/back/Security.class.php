@@ -6,5 +6,12 @@
         {
             return htmlentities($string);
         }
+
+        public static function sessionAccessVerification()
+        {
+            return (!empty($_SESSION['access']) && $_SESSION['access'] === "admin");
+        }
+
     }
+    
 ?>
