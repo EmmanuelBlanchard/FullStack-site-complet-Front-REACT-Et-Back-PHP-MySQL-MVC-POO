@@ -1,6 +1,8 @@
 <?php 
 //http://localhost/...
 //https://www.h2prog.com/...
+session_start();
+
 define("URL", str_replace("index.php","",(isset($_SERVER['HTTPS']) ? "https" : "http").
 "://$_SERVER[HTTP_HOST]$_SERVER[PHP_SELF]"));
 
@@ -43,6 +45,8 @@ try {
                     case "login" : $adminController->getLoginPage();
                     break;
                     case "connexion" : $adminController->connection();
+                    break;
+                    case "admin" : $adminController->getHomeAdmin();
                     break;
                     default : throw new Exception ("La page n'existe pas");
                 }
