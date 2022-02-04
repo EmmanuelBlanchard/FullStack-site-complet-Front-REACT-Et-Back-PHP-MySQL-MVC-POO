@@ -9,9 +9,11 @@ define("URL", str_replace("index.php","",(isset($_SERVER['HTTPS']) ? "https" : "
 require_once "./controllers/front/API.controller.php";
 require_once "./controllers/back/admin.controller.php";
 require_once "./controllers/back/families.controller.php";
+require_once "controllers/back/animals.controller.php";
 $apiController = new APIController();
 $adminController = new AdminController();
 $familiesController = new FamiliesController();
+$animalsController = new AnimalsController();
 
 try {
     if(empty($_GET['page'])) {
@@ -63,6 +65,13 @@ try {
                             case "creation" : $familiesController->creationTemplate();
                             break;
                             case "creationValidation" : $familiesController->creationValidation();
+                            break;
+                            default : throw new Exception ("La page n'existe pas");
+                        }
+                    break;
+                    case "animaux" :
+                        switch($url[2]) {
+                            case "visualisation" : $animalsController->visualization();
                             break;
                             default : throw new Exception ("La page n'existe pas");
                         }
