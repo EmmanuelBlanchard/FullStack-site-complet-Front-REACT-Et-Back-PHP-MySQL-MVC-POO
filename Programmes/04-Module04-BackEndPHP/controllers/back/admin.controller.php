@@ -11,4 +11,10 @@ class AdminController {
         require_once "views/login.view.php";
     }
 
+    public function connection()
+    {
+
+    }
+
+    
 }

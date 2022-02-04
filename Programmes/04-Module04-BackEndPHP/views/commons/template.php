@@ -8,7 +8,7 @@
 </head>
 <body>
     <?php require_once("views/commons/menu.php"); ?>
-    <div>
+    <div class="container">
         <h1 class="rounded border border-dark m-3 p-3 text-center text-white bg-info"><?= $title ?></h1>
         <?= $content ?>
     </div>
