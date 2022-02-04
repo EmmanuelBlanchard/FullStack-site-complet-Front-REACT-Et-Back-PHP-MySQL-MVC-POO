@@ -14,7 +14,7 @@ class FamiliesManager extends Model {
         return $families;
     }
 
-    public function deleteDBFamille($idFamily) 
+    public function deleteDBFamily($idFamily) 
     {
         $req ="DELETE FROM famille WHERE famille_id= :idFamily";
         $stmt = $this->getBdd()->prepare($req);
@@ -36,7 +36,7 @@ class FamiliesManager extends Model {
         return $resultat['numberAnimals'];
     }
 
-    public function updateDBFamille($idFamily,$libelleFamily,$descriptionFamily)
+    public function updateDBFamily($idFamily,$libelleFamily,$descriptionFamily)
     {
         $req ="UPDATE famille SET famille_libelle = :libelleFamily, famille_description = :descriptionFamily
         WHERE famille_id= :idFamily";
@@ -46,6 +46,18 @@ class FamiliesManager extends Model {
         $stmt->bindValue(":descriptionFamily",$descriptionFamily,PDO::PARAM_STR);
         $stmt->execute();
         $stmt->closeCursor();
+    }
+
+    public function createDBFamily($libelleFamily,$descriptionFamily) {
+        $req ="INSERT INTO famille (famille_libelle,famille_description)
+            VALUES (:libelleFamily,:descriptionFamily)
+        ";
+        $stmt = $this->getBdd()->prepare($req);
+        $stmt->bindValue(":libelleFamily",$libelleFamily,PDO::PARAM_STR);
+        $stmt->bindValue(":descriptionFamily",$descriptionFamily,PDO::PARAM_STR);
+        $stmt->execute();
+        $stmt->closeCursor();
+        return $this->getBdd()->lastInsertId();
     }
 
 }

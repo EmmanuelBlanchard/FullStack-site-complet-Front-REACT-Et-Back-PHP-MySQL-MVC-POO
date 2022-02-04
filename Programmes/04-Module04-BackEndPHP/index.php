@@ -60,7 +60,9 @@ try {
                             break;
                             case "validationModification" : $familiesController->modification();
                             break;
-                            case "creation" : echo "creation";
+                            case "creation" : $familiesController->creationTemplate();
+                            break;
+                            case "creationValidation" : $familiesController->creationValidation();
                             break;
                             default : throw new Exception ("La page n'existe pas");
                         }
