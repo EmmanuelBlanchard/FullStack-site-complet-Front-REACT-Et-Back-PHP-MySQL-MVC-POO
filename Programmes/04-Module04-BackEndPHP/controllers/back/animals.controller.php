@@ -84,4 +84,25 @@ class AnimalsController {
             throw new Exception("Vous n'avez pas le droit d'être là ! ");
         }
     }
+
+    public function modification($idAnimal)
+    {
+        if(Security::sessionAccessVerification()) {
+            $familiesManager = new FamiliesManager();
+            $families = $familiesManager->getFamilies();
+            $continentsManager = new ContinentsManager();
+            $continents = $continentsManager->getContinents();
+
+            $rowsAnimal = $this->animalsManager->getDBAnimal((int)Security::secureHTML($idAnimal));
+            $tabContinents = [];
+            foreach($rowsAnimal as $continent) {
+                $tabContinents[] = $continent['continent_id'];
+            }
+            $animal = array_slice($rowsAnimal[0],0,5);
+
+            require_once "views/modificationAnimal.view.php";
+        } else {
+            throw new Exception("Vous n'avez pas le droit d'être là ! ");
+        }
+    }
 }

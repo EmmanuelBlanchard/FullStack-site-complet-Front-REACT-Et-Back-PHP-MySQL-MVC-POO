@@ -79,6 +79,8 @@ try {
                             break;
                             case "creationValidation" : $animalsController->creationValidation();
                             break;
+                            case "modification" : $animalsController->modification($url[3]);
+                            break;
                             default : throw new Exception ("La page n'existe pas");
                         }
                     break;

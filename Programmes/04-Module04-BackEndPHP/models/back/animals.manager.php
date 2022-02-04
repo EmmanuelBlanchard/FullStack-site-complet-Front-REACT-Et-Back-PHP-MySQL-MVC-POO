@@ -47,4 +47,18 @@ class AnimalsManager extends Model {
         return $this->getBdd()->lastInsertId();
     }
 
+    public function getDBAnimal($idAnimal)
+    {
+        $req = "SELECT * FROM animal a
+            INNER JOIN famille f ON a.famille_id = f.famille_id 
+            INNER JOIN animal_continent ac ON ac.animal_id = a.animal_id
+            WHERE a.animal_id = :idAnimal";
+        $stmt = $this->getBdd()->prepare($req);
+        $stmt->bindValue(":idAnimal",$idAnimal,PDO::PARAM_INT);
+        $stmt->execute();
+        $rowsAnimal = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $stmt->closeCursor();
+        return $rowsAnimal;
+    }
+
 }
