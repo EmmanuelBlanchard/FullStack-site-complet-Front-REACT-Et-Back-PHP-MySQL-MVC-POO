@@ -23,4 +23,17 @@ class FamiliesManager extends Model {
         $stmt->closeCursor();
     }
 
+    public function countAnimals($idFamily)
+    {
+        $req ="SELECT count(*) AS 'numberAnimals'
+        FROM famille f INNER JOIN animal a ON a.famille_id = f.famille_id
+        WHERE f.famille_id = :idFamily";
+        $stmt = $this->getBdd()->prepare($req);
+        $stmt->bindValue(":idFamily",$idFamily,PDO::PARAM_INT);
+        $stmt->execute();
+        $resultat = $stmt->fetch(PDO::FETCH_ASSOC);
+        $stmt->closeCursor();
+        return $resultat['numberAnimals'];
+    }
+
 }

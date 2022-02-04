@@ -23,7 +23,22 @@ class FamiliesController {
     public function deletion() 
     {
         if(Security::sessionAccessVerification()) {
-            $this->familiesManager->deleteDBFamille((int)Security::secureHTML($_POST['famille_id']));
+            $idFamily = (int)Security::secureHTML($_POST['famille_id']);
+
+            if($this->familiesManager->countAnimals($idFamily) > 0) {
+                $_SESSION['alert'] = [
+                    "message" => "La famille n'a pas été supprimée",
+                    "type" => "alert-danger"
+                ];
+            } else {
+                $this->familiesManager->deleteDBFamille($idFamily);
+                $_SESSION['alert'] = [
+                    "message" => "La famille a été supprimée",
+                    "type" => "alert-success"
+                ];
+            }
+           
+            header('Location: '.URL.'back/familles/visualisation');
         } else {
             throw new Exception("Vous n'avez pas le droit d'être là ! ");
         }
