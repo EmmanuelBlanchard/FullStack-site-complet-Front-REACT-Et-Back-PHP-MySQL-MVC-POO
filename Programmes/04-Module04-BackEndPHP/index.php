@@ -73,6 +73,8 @@ try {
                         switch($url[2]) {
                             case "visualisation" : $animalsController->visualization();
                             break;
+                            case "validationSuppression" : $animalsController->deletion();
+                            break;
                             default : throw new Exception ("La page n'existe pas");
                         }
                     break;
