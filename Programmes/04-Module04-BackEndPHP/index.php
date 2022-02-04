@@ -75,6 +75,8 @@ try {
                             break;
                             case "validationSuppression" : $animalsController->deletion();
                             break;
+                            case "creation" : $animalsController->creationTemplate();
+                            break;
                             default : throw new Exception ("La page n'existe pas");
                         }
                     break;
