@@ -65,15 +65,15 @@ class AnimalsController {
 
             $continentsManager = new ContinentsManager();
             if(!empty($_POST['continent-1']))
-                $continentsManager->addContinentAnimal($idAnimal,1);
+                $continentsManager->addDBContinentAnimal($idAnimal,1);
             if(!empty($_POST['continent-2']))
-                $continentsManager->addContinentAnimal($idAnimal,2);
+                $continentsManager->addDBContinentAnimal($idAnimal,2);
             if(!empty($_POST['continent-3']))
-                $continentsManager->addContinentAnimal($idAnimal,3);
+                $continentsManager->addDBContinentAnimal($idAnimal,3);
             if(!empty($_POST['continent-4']))
-                $continentsManager->addContinentAnimal($idAnimal,4);
+                $continentsManager->addDBContinentAnimal($idAnimal,4);
             if(!empty($_POST['continent-5']))
-                $continentsManager->addContinentAnimal($idAnimal,5);
+                $continentsManager->addDBContinentAnimal($idAnimal,5);
 
             $_SESSION['alert'] = [
                 "message" => "L'animal a été créé avec l'id : ".$idAnimal,
@@ -105,4 +105,48 @@ class AnimalsController {
             throw new Exception("Vous n'avez pas le droit d'être là ! ");
         }
     }
+
+    public function modificationValidation()
+    {
+        if(Security::sessionAccessVerification()) {
+            $idAnimal = Security::secureHTML($_POST['animal_id']);
+            $nameAnimal = Security::secureHTML($_POST['animal_nom']);
+            $descriptionAnimal = Security::secureHTML($_POST['animal_description']);
+            $imageAnimal = "";
+            $familyAnimal = (int) Security::secureHTML($_POST['famille_id']);
+
+            $this->animalsManager->updateAnimal($idAnimal,$nameAnimal,$descriptionAnimal,$imageAnimal,$familyAnimal);
+            
+            $continents = [
+                1 => !empty($_POST['continent-1']),
+                2 => !empty($_POST['continent-2']),
+                3 => !empty($_POST['continent-3']),
+                4 => !empty($_POST['continent-4']),
+                5 => !empty($_POST['continent-5']),
+            ];
+
+            $continentsManager = new ContinentsManager;
+
+            foreach ($continents as $key => $continent) {
+                //continent coché et non présent en BD
+                if($continents[$key] && !$continentsManager->checkAnimalContinentExists($idAnimal,$key)) {
+                    $continentsManager->addDBContinentAnimal($idAnimal,$key);
+                }
+
+                //continent non coché et présent en BD
+                if(!$continents[$key] && $continentsManager->checkAnimalContinentExists($idAnimal,$key)) {
+                    $continentsManager->deleteDBContinentAnimal($idAnimal,$key);
+                }
+            }
+
+            $_SESSION['alert'] = [
+                "message" => "L'animal a bien été modifié",
+                "type" => "alert-success"
+            ];
+            header('Location: '.URL.'back/animaux/visualisation');
+        } else {
+            throw new Exception("Vous n'avez pas le droit d'être là ! ");
+        }
+    }
+
 }

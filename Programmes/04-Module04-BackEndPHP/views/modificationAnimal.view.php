@@ -1,6 +1,7 @@
 <?php ob_start(); ?>
 
-<form method="POST" action="<?= URL ?>back/animaux/creationValidation" enctype="multipart/form-data">
+<form method="POST" action="<?= URL ?>back/animaux/modificationValidation" enctype="multipart/form-data">
+    <input type="hidden" name="animal_id" value="<?= $animal['animal_id']; ?>" />
     <div class="mb-3">
         <label for="animal_nom" class="form-label">Nom de l'animal : </label>
         <input type="text" class="form-control" id="animal_nom" name="animal_nom" value="<?= $animal['animal_nom'] ?>">
@@ -19,30 +20,28 @@
         <select class="form-select" aria-label="Selecteur de famille" name="famille_id">
             <option></option>
             <?php foreach ($families as $family) : ?>
-                <option value="<?= $family['famille_id'] ?>">
-                    <?php if($family['famille_id'] === $animal['famille_id']) echo "selected"; ?>
+                <option value="<?= $family['famille_id'] ?>"
+                    <?php if($family['famille_id'] === $animal['famille_id']) echo "selected"; ?> 
                     >
                     <?= $family['famille_id'] ?> - <?= $family['famille_libelle'] ?>
                 </option>
             <?php endforeach; ?>
         </select>
+        </select>
     </div>
-
     <div class='row no-gutters'>
         <div class="col-1"></div>
         <?php foreach($continents as $continent) : ?>
             <div class="mb-3 form-check col-2">
                 <input type="checkbox" class="form-check-input" name="continent-<?= $continent['continent_id'] ?>"
-                    <?php if(in_array($continent['continent_id'],$tabContinents)) 
-                        echo "checked";
-                    ?>
-                >
+                    <?php if(in_array($continent['continent_id'],$tabContinents))  echo "checked"; ?> 
+                    >
                 <label class="form-check-label" for="exampleCheck1"><?= $continent['continent_libelle'] ?></label>
             </div>
         <?php endforeach; ?>
         <div class="col-1"></div>
     </div>
-    <button type="submit" class="btn btn-primary">Créer</button>
+    <button type="submit" class="btn btn-primary">Modifier</button>
 </form>
 
 <?php 

@@ -49,9 +49,9 @@ class AnimalsManager extends Model {
 
     public function getDBAnimal($idAnimal)
     {
-        $req = "SELECT * FROM animal a
+        $req = "SELECT a.animal_id, animal_nom, animal_description, animal_image, a.famille_id, continent_id FROM animal a
             INNER JOIN famille f ON a.famille_id = f.famille_id 
-            INNER JOIN animal_continent ac ON ac.animal_id = a.animal_id
+            LEFT JOIN animal_continent ac ON ac.animal_id = a.animal_id
             WHERE a.animal_id = :idAnimal";
         $stmt = $this->getBdd()->prepare($req);
         $stmt->bindValue(":idAnimal",$idAnimal,PDO::PARAM_INT);
@@ -59,6 +59,21 @@ class AnimalsManager extends Model {
         $rowsAnimal = $stmt->fetchAll(PDO::FETCH_ASSOC);
         $stmt->closeCursor();
         return $rowsAnimal;
+    }
+
+    public function updateAnimal($idAnimal,$nameAnimal,$descriptionAnimal,$imageAnimal,$familyAnimal)
+    {
+        $req ="UPDATE animal 
+        SET animal_nom = :nameAnimal, animal_description = :descriptionAnimal, animal_image = :imageAnimal, famille_id = :familyAnimal
+        WHERE animal_id= :idAnimal";
+        $stmt = $this->getBdd()->prepare($req);
+        $stmt->bindValue(":idAnimal",$idAnimal,PDO::PARAM_INT);
+        $stmt->bindValue(":familyAnimal",$familyAnimal,PDO::PARAM_INT);
+        $stmt->bindValue(":nameAnimal",$nameAnimal,PDO::PARAM_STR);
+        $stmt->bindValue(":descriptionAnimal",$descriptionAnimal,PDO::PARAM_STR);
+        $stmt->bindValue(":imageAnimal",$imageAnimal,PDO::PARAM_STR);
+        $stmt->execute();
+        $stmt->closeCursor();
     }
 
 }

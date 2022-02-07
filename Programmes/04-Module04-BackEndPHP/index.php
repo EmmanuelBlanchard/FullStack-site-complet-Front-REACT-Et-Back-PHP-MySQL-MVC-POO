@@ -81,6 +81,8 @@ try {
                             break;
                             case "modification" : $animalsController->modification($url[3]);
                             break;
+                            case "modificationValidation" : $animalsController->modificationValidation();
+                            break;
                             default : throw new Exception ("La page n'existe pas");
                         }
                     break;
