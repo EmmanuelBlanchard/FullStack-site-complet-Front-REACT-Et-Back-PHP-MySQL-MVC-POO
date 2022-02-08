@@ -119,7 +119,12 @@ class AnimalsController {
             $idAnimal = Security::secureHTML($_POST['animal_id']);
             $nameAnimal = Security::secureHTML($_POST['animal_nom']);
             $descriptionAnimal = Security::secureHTML($_POST['animal_description']);
-            $imageAnimal = "";
+            $imageAnimal= $this->animalsManager->getImageAnimal($idAnimal);
+            if($_FILES['image']['size'] > 0) {
+                unlink("public/images/".$imageAnimal);
+                $directory = "public/images/";
+                $imageAnimal = Utilities::addImage($_FILES['image'],$directory);
+            }
             $familyAnimal = (int) Security::secureHTML($_POST['famille_id']);
 
             $this->animalsManager->updateAnimal($idAnimal,$nameAnimal,$descriptionAnimal,$imageAnimal,$familyAnimal);

@@ -11,10 +11,16 @@
         <textarea class="form-control" id="animal_description" name="animal_description" rows="3"><?= $animal['animal_description'] ?></textarea>
     </div>
     <div class="mb-3">
-        <label for="image" class="form-label">Image : </label>
-        <input class="form-control" type="file" id="image" name="image">
+        <div class='row no-gutters'>
+            <div class="col-12">
+                <img src="<?= URL ?>public/images/<?= $animal['animal_image'] ?>" class="img-thumbnail my-2" />
+            </div>
+            <div class="col-12">
+                <label for="image" class="form-label">Image : </label>
+                <input class="form-control" type="file" id="image" name="image">
+            </div>
+        </div>
     </div>
-
     <div class="mb-3">
         <label for="famille_id" class="form-label">Familles : </label>
         <select class="form-select" aria-label="Selecteur de famille" name="famille_id">
