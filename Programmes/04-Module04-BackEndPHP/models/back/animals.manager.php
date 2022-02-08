@@ -76,4 +76,15 @@ class AnimalsManager extends Model {
         $stmt->closeCursor();
     }
 
+    public function getImageAnimal($idAnimal)
+    {
+        $req = "SELECT animal_image FROM animal WHERE animal_id = :idAnimal";
+        $stmt = $this->getBdd()->prepare($req);
+        $stmt->bindValue(":idAnimal",$idAnimal,PDO::PARAM_INT);
+        $stmt->execute();
+        $imageAnimal = $stmt->fetch(PDO::FETCH_ASSOC);
+        $stmt->closeCursor();
+        return $imageAnimal['animal_image'];
+    }
+
 }

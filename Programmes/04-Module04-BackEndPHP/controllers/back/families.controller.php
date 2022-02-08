@@ -14,7 +14,7 @@ class FamiliesController {
     {
         if(Security::sessionAccessVerification()) {
             $families = $this->familiesManager->getFamilies();
-            require_once "views/familyVisualization.view.php";
+            require_once "views/visualizationFamily.view.php";
         } else {
             throw new Exception("Vous n'avez pas le droit d'être là ! ");
         }

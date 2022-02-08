@@ -17,7 +17,7 @@ class AnimalsController {
     {
         if(Security::sessionAccessVerification()) {
             $animals = $this->animalsManager->getAnimals();
-            require_once "views/animalsVisualisation.view.php";
+            require_once "views/visualizationAnimals.view.php";
         } else {
             throw new Exception("Vous n'avez pas le droit d'être là ! ");
         }
@@ -27,6 +27,8 @@ class AnimalsController {
     {
         if(Security::sessionAccessVerification()) {
             $idAnimal = (int)Security::secureHTML($_POST['animal_id']);
+            $imageAnimal = $this->animalsManager->getImageAnimal($idAnimal);
+            unlink("public/images/".$imageAnimal);
             
             $this->animalsManager->deleteDBAnimalContinent($idAnimal);
             $this->animalsManager->deleteDBAnimal($idAnimal);
