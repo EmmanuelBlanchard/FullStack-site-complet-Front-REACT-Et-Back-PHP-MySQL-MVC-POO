@@ -13,7 +13,6 @@
         <label for="image" class="form-label">Image : </label>
         <input class="form-control" type="file" id="image" name="image">
     </div>
-
     <div class="mb-3">
         <label for="famille_id" class="form-label">Familles : </label>
         <select class="form-select" aria-label="Selecteur de famille" name="famille_id">

@@ -3,6 +3,7 @@ require_once "./controllers/back/Security.class.php";
 require_once "./models/back/animals.manager.php";
 require_once "./models/back/families.manager.php";
 require_once "./models/back/continents.manager.php";
+require_once "./controllers/back/Utilities.class.php";
 
 class AnimalsController {
     private $animalsManager;
@@ -59,6 +60,10 @@ class AnimalsController {
             $nameAnimal = Security::secureHTML($_POST['animal_nom']);
             $descriptionAnimal = Security::secureHTML($_POST['animal_description']);
             $imageAnimal = "";
+            if($_FILES['image']['size'] > 0) {
+                $directory = "public/images/";
+                $imageAnimal = Utilities::addImage($_FILES['image'],$directory);
+            }
             $familyAnimal = (int) Security::secureHTML($_POST['famille_id']);
 
             $idAnimal = $this->animalsManager->createDBAnimal($nameAnimal,$descriptionAnimal,$imageAnimal,$familyAnimal);
